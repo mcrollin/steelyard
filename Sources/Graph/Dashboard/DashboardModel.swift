@@ -4,7 +4,7 @@
 
 import Foundation
 
-public struct AppSizeChartModel {
+public struct DashboardModel {
     public struct Size {
         let version: String
         let universal: Int?

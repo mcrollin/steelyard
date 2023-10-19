@@ -20,9 +20,6 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "AppSizeChart"
-        ),
-        .target(
             name: "AppSizeFetcher",
             dependencies: [
                 .target(name: "AppStoreConnect"),
@@ -47,12 +44,15 @@ let package = Package(
             name: "Graph",
             dependencies: [
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
-                .target(name: "AppSizeChart"),
                 .target(name: "AppSizeFetcher"),
                 .target(name: "AppStoreConnect"),
                 .target(name: "Console"),
+                .target(name: "Platform"),
                 .target(name: "ViewRenderer"),
             ]
+        ),
+        .target(
+            name: "Platform"
         ),
         .executableTarget(
             name: "Steelyard",

@@ -6,10 +6,10 @@ import Charts
 import Foundation
 import SwiftUI
 
-public struct AppSizeChart: View {
-    @State public var model: AppSizeChartModel
+struct Dashboard: View {
+    @State public var model: DashboardModel
 
-    public init(model: AppSizeChartModel) {
+    init(model: DashboardModel) {
         self.model = model
     }
 
@@ -24,7 +24,7 @@ public struct AppSizeChart: View {
         Self.byteCountFormatter.string(fromByteCount: Int64(bytes))
     }
 
-    public var body: some View {
+    var body: some View {
         VStack {
             Text(model.appName).font(.largeTitle).foregroundColor(.primary)
             if let downloadSizes = model.downloadSizes {
@@ -40,7 +40,7 @@ public struct AppSizeChart: View {
         .background(.background)
     }
 
-    private func chart(title: String, sizes: [AppSizeChartModel.Size]) -> some View {
+    private func chart(title: String, sizes: [DashboardModel.Size]) -> some View {
         Section {
             Chart(sizes, id: \.version) { size in
                 thinnedRangeBarMark(size: size)
@@ -71,7 +71,7 @@ public struct AppSizeChart: View {
     }
 
     @ChartContentBuilder
-    private func referenceLineMark(size: AppSizeChartModel.Size) -> some ChartContent {
+    private func referenceLineMark(size: DashboardModel.Size) -> some ChartContent {
         if let reference = size.reference, let device = model.referenceDeviceIdentifier {
             PointMark(
                 x: .value("Version", size.version),
@@ -95,15 +95,15 @@ public struct AppSizeChart: View {
     }
 
     @ChartContentBuilder
-    private func universalLineMark(size: AppSizeChartModel.Size) -> some ChartContent {
+    private func universalLineMark(size: DashboardModel.Size) -> some ChartContent {
         if let universal = size.universal {
-            dottedLineMark(size: size, value: universal, name: AppSizeChartModel.universalIdentifier)
+            dottedLineMark(size: size, value: universal, name: DashboardModel.universalIdentifier)
                 .symbolSize(.zero)
         }
     }
 
     @ChartContentBuilder
-    private func dottedLineMark(size: AppSizeChartModel.Size, value: Int, name: String) -> some ChartContent {
+    private func dottedLineMark(size: DashboardModel.Size, value: Int, name: String) -> some ChartContent {
         LineMark(
             x: .value("Version", size.version),
             y: .value(name, value)
@@ -114,7 +114,7 @@ public struct AppSizeChart: View {
     }
 
     @ChartContentBuilder
-    private func thinnedRangeBarMark(size: AppSizeChartModel.Size) -> some ChartContent {
+    private func thinnedRangeBarMark(size: DashboardModel.Size) -> some ChartContent {
         BarMark(
             x: .value("Version", size.version),
             yStart: .value("Thinned Min", size.thinned.lowerBound),

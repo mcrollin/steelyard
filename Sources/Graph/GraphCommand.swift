@@ -2,12 +2,11 @@
 //  Copyright © Marc Rollin.
 //
 
-import AppSizeChart
 import AppSizeFetcher
-import AppStoreConnect
 import ArgumentParser
 import Console
 import Foundation
+import Platform
 import ViewRenderer
 
 // MARK: - Steelyard
@@ -78,7 +77,7 @@ public struct GraphCommand: AsyncParsableCommand {
                 filePath = URL(fileURLWithPath: output)
             }
 
-            if let url = await AppSizeChart(
+            if let url = await Dashboard(
                 model: .init(
                     app: app,
                     sizesByBuildsAndVersions: sizesByBuildsAndVersions,

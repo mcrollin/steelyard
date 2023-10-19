@@ -2,11 +2,10 @@
 //  Copyright © Marc Rollin.
 //
 
-import AppSizeChart
 import AppStoreConnect
 import Foundation
 
-extension AppSizeChartModel {
+extension DashboardModel {
 
     init(
         app: Application,
@@ -40,7 +39,7 @@ extension AppSizeChartModel {
     }
 }
 
-private extension AppSizeChartModel.Size {
+private extension DashboardModel.Size {
     enum Category {
         case download, install
     }
@@ -58,7 +57,7 @@ private extension AppSizeChartModel.Size {
         var sizeByDevice = sizes.fileSizes.reduce(into: [String: Int]()) { result, size in
             result[size.deviceModel] = size[keyPath: keyPath]
         }
-        let universal = sizeByDevice.removeValue(forKey: AppSizeChartModel.universalIdentifier)
+        let universal = sizeByDevice.removeValue(forKey: DashboardModel.universalIdentifier)
         let thinnedSizes = sizeByDevice.values
 
         self.init(
