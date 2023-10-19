@@ -5,12 +5,12 @@
 # ⚖️ Steelyard
 
 [![Build Status](https://github.com/mcrollin/Steelyard/actions/workflows/ci.yml/badge.svg)](https://github.com/mcrollin/Steelyard/actions/workflows/ci.yml)
-![Release](https://img.shields.io/github/release/mcrollin/Steelyard.svg)
+[![Release](https://img.shields.io/github/release/mcrollin/Steelyard.svg)](https://github.com/mcrollin/Steelyard/releases)
 ![macOS](https://img.shields.io/badge/macOS-Ventura%20or%20later-blue)
-![Swift Version](https://img.shields.io/badge/swift-5.9-orange.svg)
-![Swift Package Manager](https://img.shields.io/badge/Swift_Package_Manager-compatible-green)
+[![Swift Version](https://img.shields.io/badge/swift-5.9-orange.svg)](https://www.swift.org/documentation/)
+[![Swift Package Manager](https://img.shields.io/badge/Swift_Package_Manager-compatible-green)](https://www.swift.org/package-manager/)
 ![License](https://img.shields.io/github/license/mcrollin/Steelyard.svg)
- 
+
 ## Overview
 Steelyard is a utility for generating graphs related to app size evolution.
 
