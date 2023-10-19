@@ -3,7 +3,6 @@
 //
 
 import Foundation
-import os.log
 import Rainbow
 
 public enum Console {
