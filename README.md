@@ -4,7 +4,7 @@
 
 # ⚖️ Steelyard
 
-![Build](https://img.shields.io/github/checks-status/mcrollin/Steelyard/main)
+[![Build Status](https://github.com/mcrollin/Steelyard/actions/workflows/ci.yml/badge.svg)](https://github.com/mcrollin/Steelyard/actions/workflows/ci.yml)
 ![macOS](https://img.shields.io/badge/macOS-Ventura%20or%20later-blue)
 ![Swift Version](https://img.shields.io/badge/swift-5.9-orange.svg)
 ![Swift Package Manager](https://img.shields.io/badge/Swift_Package_Manager-compatible-green)
