@@ -23,6 +23,13 @@ let package = Package(
             name: "AppSizeChart"
         ),
         .target(
+            name: "AppSizeFetcher",
+            dependencies: [
+                .target(name: "AppStoreConnect"),
+                .target(name: "Console"),
+            ]
+        ),
+        .target(
             name: "AppStoreConnect",
             dependencies: [
                 .product(name: "SwiftJWT", package: "Swift-JWT"),
@@ -37,10 +44,11 @@ let package = Package(
             ]
         ),
         .target(
-            name: "GraphCommand",
+            name: "Graph",
             dependencies: [
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
                 .target(name: "AppSizeChart"),
+                .target(name: "AppSizeFetcher"),
                 .target(name: "AppStoreConnect"),
                 .target(name: "Console"),
                 .target(name: "ViewRenderer"),
@@ -50,7 +58,7 @@ let package = Package(
             name: "Steelyard",
             dependencies: [
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
-                .target(name: "GraphCommand"),
+                .target(name: "Graph"),
             ]
         ),
         .target(

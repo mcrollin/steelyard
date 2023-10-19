@@ -4,7 +4,7 @@
 
 import ArgumentParser
 import Foundation
-import GraphCommand
+import Graph
 
 // MARK: - Steelyard
 
