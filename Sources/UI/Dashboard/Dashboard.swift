@@ -3,28 +3,21 @@
 //
 
 import Charts
-import Foundation
 import SwiftUI
 
-struct Dashboard: View {
-    @State public var model: DashboardModel
+public struct Dashboard: View {
 
-    init(model: DashboardModel) {
+    // MARK: Lifecycle
+
+    public init(model: DashboardModel) {
         self.model = model
     }
 
-    private static let byteCountFormatter: ByteCountFormatter = {
-        let formatter = ByteCountFormatter()
-        formatter.allowedUnits = [.useMB, .useGB]
-        formatter.countStyle = .file
-        return formatter
-    }()
+    // MARK: Public
 
-    private func formatBytes(_ bytes: Int) -> String {
-        Self.byteCountFormatter.string(fromByteCount: Int64(bytes))
-    }
+    @State public var model: DashboardModel
 
-    var body: some View {
+    public var body: some View {
         VStack {
             Text(model.appName).font(.largeTitle).foregroundColor(.primary)
             if let downloadSizes = model.downloadSizes {
@@ -38,6 +31,19 @@ struct Dashboard: View {
         }
         .padding()
         .background(.background)
+    }
+
+    // MARK: Private
+
+    private static let byteCountFormatter: ByteCountFormatter = {
+        let formatter = ByteCountFormatter()
+        formatter.allowedUnits = [.useMB, .useGB]
+        formatter.countStyle = .file
+        return formatter
+    }()
+
+    private func formatBytes(_ bytes: Int) -> String {
+        Self.byteCountFormatter.string(fromByteCount: Int64(bytes))
     }
 
     private func chart(title: String, sizes: [DashboardModel.Size]) -> some View {

@@ -5,6 +5,23 @@
 import Foundation
 
 public struct DashboardModel {
+
+    // MARK: Lifecycle
+
+    public init(
+        appName: String,
+        downloadSizes: [Size]?,
+        installSizes: [Size]?,
+        referenceDeviceIdentifier: String?
+    ) {
+        self.appName = appName
+        self.downloadSizes = downloadSizes
+        self.installSizes = installSizes
+        self.referenceDeviceIdentifier = referenceDeviceIdentifier
+    }
+
+    // MARK: Public
+
     public struct Size {
         let version: String
         let universal: Int?
@@ -19,21 +36,12 @@ public struct DashboardModel {
         }
     }
 
+    public static let universalIdentifier = "Universal"
+
+    // MARK: Internal
+
     let appName: String
     let downloadSizes: [Size]?
     let installSizes: [Size]?
     let referenceDeviceIdentifier: String?
-    public static let universalIdentifier = "Universal"
-
-    public init(
-        appName: String,
-        downloadSizes: [Size]?,
-        installSizes: [Size]?,
-        referenceDeviceIdentifier: String?
-    ) {
-        self.appName = appName
-        self.downloadSizes = downloadSizes
-        self.installSizes = installSizes
-        self.referenceDeviceIdentifier = referenceDeviceIdentifier
-    }
 }

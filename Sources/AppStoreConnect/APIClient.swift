@@ -8,25 +8,24 @@ import HTTPTypesFoundation
 import SwiftJWT
 
 actor APIClient {
-    private let keyID: String
-    private let issuerID: String
-    private let audience: String
-    private let privateKey: Data
 
-    private struct Claim: Claims {
-        let iss: String
-        var iat = Date()
-        var exp = Date().addingTimeInterval(1200)
-        let aud: String
-        let scope: [String]
+    // MARK: Lifecycle
+
+    init(keyID: String, issuerID: String, audience: String, privateKeyPath: String) throws {
+        self.keyID = keyID
+        self.issuerID = issuerID
+        self.audience = audience
+        privateKey = try Self.privateKey(atPath: privateKeyPath)
     }
+
+    // MARK: Internal
 
     enum RequestError: Error, CustomStringConvertible {
         case http(code: Int, data: Data)
 
         var description: String {
             switch self {
-            case let .http(code, _):
+            case .http(let code, _):
                 var explanation = ""
                 switch code {
                 case 400..<500:
@@ -39,13 +38,6 @@ actor APIClient {
                 return "Network issue: Received HTTP status code \(code). \(explanation)"
             }
         }
-    }
-
-    init(keyID: String, issuerID: String, audience: String, privateKeyPath: String) throws {
-        self.keyID = keyID
-        self.issuerID = issuerID
-        self.audience = audience
-        privateKey = try Self.privateKey(atPath: privateKeyPath)
     }
 
     func send(request: HTTPRequest) async throws -> Data {
@@ -66,6 +58,21 @@ actor APIClient {
             )
         }
     }
+
+    // MARK: Private
+
+    private struct Claim: Claims {
+        let iss: String
+        var iat = Date()
+        var exp = Date().addingTimeInterval(1200)
+        let aud: String
+        let scope: [String]
+    }
+
+    private let keyID: String
+    private let issuerID: String
+    private let audience: String
+    private let privateKey: Data
 
     private static func privateKey(atPath filePath: String) throws -> Data {
         try Data(contentsOf: URL(fileURLWithPath: filePath))

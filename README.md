@@ -74,14 +74,18 @@ The App ID can be found in the [App Store Connect > Apps > General > App Informa
 
 ## Commands
 
-### Generate a Graph
+For each command, you'll need to supply the following arguments: `key-id`, `issuer-id`, `private-key-path`, and `app-id`.
+
+### 📉 Generate Size History Graph
+
+Create a PNG image that displays historical size graphs for a specific app.
 
 ![graph](https://github.com/mcrollin/Steelyard/assets/7055162/01e41e6f-b328-4bc9-8179-98863f3f205d)
 
-To generate a graph, you need to provide several arguments like `key-id`, `issuer-id`, `private-key-path`, and `app-id`. The command format is as follows:
+The command format is as follows:
 
 ```bash
-USAGE: steelyard graph <key-id> <issuer-id> <private-key-path> <app-id> [--verbose] [--open-output] [--limit <limit>] [--reference-device-identifier <reference-device-identifier>]
+USAGE: steelyard graph [<options>] <key-id> <issuer-id> <private-key-path> <app-id>
 
 ARGUMENTS:
   <key-id>                The key ID from the Apple Developer portal.
@@ -91,10 +95,17 @@ ARGUMENTS:
 
 OPTIONS:
   -v, --verbose           Display all information messages.
-  -o, --open-output       Open the result graphs.
-  -l, --limit <limit>     The number of builds to process, between 0 and 200. (default: 30)
+  --by-version            Fetch sizes categorized by version, not build. Slower to retrieve.
+  -l, --limit <limit>     Specify the number of items to analyze.
+                          - For builds, the range is 1 to 200 to 200.
+                          - For versions, the range is 1 to 50. (default: 30)
+  --download-size/--no-download-size
+                          Include download sizes. (default: --download-size)
+  --install-size/--no-install-size
+                          Include install sizes. (default: --install-size)
   --reference-device-identifier <reference-device-identifier>
                           The reference device to highlight in the charts. (default: iPhone12,1)
+  -o, --output <output>   Specify the destination path for the generated PNG file.
   -h, --help              Show help information.
 
 ```
@@ -103,6 +114,64 @@ For more information, run:
 
 ```bash
 steelyard graph --help
+```
+
+### 💾 Export Detailed Size Metrics
+
+Produces a JSON file with in-depth size metrics for a specific app with the following format:
+
+```json
+{
+  "appName": "ExampleApp",
+  "sizes": {
+    "download": {
+      "5.3.0": {
+        "iPhone11": 1200000,
+        "iPhone12": 1300000
+      },
+      ...
+    },
+    "install": {
+      "5.3.0": {
+        "iPhone11": 2500000,
+        "iPhone12": 2600000
+      },
+      ...
+    }
+  }
+}
+
+```
+
+The command format is as follows:
+
+```bash
+USAGE: steelyard data <key-id> <issuer-id> <private-key-path> <app-id> [--verbose] [--by-version] [--limit <limit>] [--download-size] [--no-download-size] [--install-size] [--no-install-size] [--output <output>]
+
+ARGUMENTS:
+  <key-id>                The key ID from the Apple Developer portal.
+  <issuer-id>             The issuer ID from the App Store Connect organization.
+  <private-key-path>      The path to the .p8 private key file.
+  <app-id>                The App ID.
+
+OPTIONS:
+  -v, --verbose           Display all information messages.
+  --by-version            Fetch sizes categorized by version, not build. Slower to retrieve.
+  -l, --limit <limit>     Specify the number of items to analyze.
+                          - For builds, the range is 1 to 200 to 200.
+                          - For versions, the range is 1 to 50. (default: 30)
+  --download-size/--no-download-size
+                          Include download sizes. (default: --download-size)
+  --install-size/--no-install-size
+                          Include install sizes. (default: --install-size)
+  -o, --output <output>   Specify the destination path for the export JSON file.
+  -h, --help              Show help information.
+```
+
+For more information, run:
+
+```bash
+steelyard data --help
 ```
 
 ---

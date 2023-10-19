@@ -7,6 +7,8 @@ import Rainbow
 
 public enum Console {
 
+    // MARK: Public
+
     public static var verbose = false
 
     public static func debug(_ message: any StringProtocol, prefix: String? = nil) {
@@ -39,6 +41,8 @@ public enum Console {
         let percentagePadding = String(repeating: " ", count: paddingForPercentage)
         return "[\(completedSection)\(remainingSection)]\(percentagePadding)\(formattedPercentage)"
     }
+
+    // MARK: Private
 
     private enum Level {
         case debug, info, success, warn, error

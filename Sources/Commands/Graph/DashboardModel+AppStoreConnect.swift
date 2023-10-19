@@ -4,6 +4,7 @@
 
 import AppStoreConnect
 import Foundation
+import UI
 
 extension DashboardModel {
 
@@ -39,12 +40,11 @@ extension DashboardModel {
     }
 }
 
-private extension DashboardModel.Size {
-    enum Category {
-        case download, install
-    }
+extension DashboardModel.Size {
 
-    init(sizes: SizesByBuildAndVersion, category: Category, referenceDeviceIdentifier: String? = nil) {
+    // MARK: Lifecycle
+
+    fileprivate init(sizes: SizesByBuildAndVersion, category: Category, referenceDeviceIdentifier: String? = nil) {
         let keyPath: KeyPath<BuildBundleFileSize, Int>
 
         switch category {
@@ -66,5 +66,11 @@ private extension DashboardModel.Size {
             reference: referenceDeviceIdentifier != nil ? sizeByDevice[referenceDeviceIdentifier!] : nil,
             thinned: (thinnedSizes.min() ?? 0)...(thinnedSizes.max() ?? 0)
         )
+    }
+
+    // MARK: Fileprivate
+
+    fileprivate enum Category {
+        case download, install
     }
 }

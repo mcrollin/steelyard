@@ -6,11 +6,10 @@ import PackageDescription
 let package = Package(
     name: "Steelyard",
     platforms: [
-        .macOS(.v13)
+        .macOS(.v13),
     ],
     products: [
         .executable(name: "steelyard", targets: ["Steelyard"]),
-        .library(name: "AppStoreConnect", targets: ["AppStoreConnect"]),
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-argument-parser.git", .upToNextMajor(from: "1.2.0")),
@@ -19,13 +18,6 @@ let package = Package(
         .package(url: "https://github.com/onevcat/Rainbow", .upToNextMajor(from: "4.0.0")),
     ],
     targets: [
-        .target(
-            name: "AppSizeFetcher",
-            dependencies: [
-                .target(name: "AppStoreConnect"),
-                .target(name: "Console"),
-            ]
-        ),
         .target(
             name: "AppStoreConnect",
             dependencies: [
@@ -41,14 +33,13 @@ let package = Package(
             ]
         ),
         .target(
-            name: "Graph",
+            name: "Commands",
             dependencies: [
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
-                .target(name: "AppSizeFetcher"),
                 .target(name: "AppStoreConnect"),
                 .target(name: "Console"),
                 .target(name: "Platform"),
-                .target(name: "ViewRenderer"),
+                .target(name: "UI"),
             ]
         ),
         .target(
@@ -58,11 +49,11 @@ let package = Package(
             name: "Steelyard",
             dependencies: [
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
-                .target(name: "Graph"),
+                .target(name: "Commands"),
             ]
         ),
         .target(
-            name: "ViewRenderer"
+            name: "UI"
         ),
     ]
 )

@@ -6,64 +6,8 @@ import Foundation
 import HTTPTypes
 
 public actor AppStoreConnect {
-    static let baseURL = "api.appstoreconnect.apple.com"
-    static let version = "v1"
 
-    private let client: APIClient
-    private let decoder = JSONDecoder()
-
-    private enum Endpoint {
-        case apps
-        case app(appID: String)
-        case versions(appID: String, limit: Int)
-        case build(versionID: String)
-        case builds(appID: String, limit: Int)
-        case buildBundles(buildID: String)
-        case buildBundleFileSizes(bundleID: String)
-
-        var httpMethod: HTTPRequest.Method {
-            .get
-        }
-
-        var path: String {
-            switch self {
-            case .apps:
-                return "apps?fields[apps]=bundleId,name"
-            case let .app(appID):
-                return "apps/\(appID)?fields[apps]=bundleId,name"
-            case let .versions(appID, limit):
-                return "apps/\(appID)?include=appStoreVersions&fields[apps]=bundleId&fields[appStoreVersions]=versionString&limit[appStoreVersions]=\(limit)"
-            case let .build(versionID):
-                return "appStoreVersions/\(versionID)?include=build&fields[appStoreVersions]=&fields[builds]=uploadedDate,version"
-            case let .builds(appID, limit):
-                return "builds?filter[app]=\(appID)&limit=\(limit)&fields[builds]=uploadedDate,version"
-            case let .buildBundles(buildID):
-                return "builds/\(buildID)?include=buildBundles&fields[builds]=&fields[buildBundles]="
-            case let .buildBundleFileSizes(bundleID):
-                return "buildBundles/\(bundleID)/buildBundleFileSizes"
-            }
-        }
-
-        var request: HTTPRequest {
-            .init(
-                method: httpMethod,
-                scheme: "https",
-                authority: AppStoreConnect.baseURL,
-                path: "/\(AppStoreConnect.version)/\(path)"
-            )
-        }
-    }
-
-    enum ConnectError: Error, CustomStringConvertible {
-        case missingBuildBundle(buildID: String, buildVersion: String)
-
-        var description: String {
-            switch self {
-            case let .missingBuildBundle(_, buildVersion):
-                return "No build bundle found for build #\(buildVersion)"
-            }
-        }
-    }
+    // MARK: Lifecycle
 
     public init(keyID: String, issuerID: String, privateKeyPath: String) throws {
         client = try .init(
@@ -75,6 +19,8 @@ public actor AppStoreConnect {
 
         decoder.dateDecodingStrategy = .iso8601
     }
+
+    // MARK: Public
 
     public func apps() async throws -> [Application] {
         try await requestData(endpoint: .apps)
@@ -135,6 +81,71 @@ public actor AppStoreConnect {
         }
     }
 
+    // MARK: Internal
+
+    enum ConnectError: Error, CustomStringConvertible {
+        case missingBuildBundle(buildID: String, buildVersion: String)
+
+        var description: String {
+            switch self {
+            case .missingBuildBundle(_, let buildVersion):
+                "No build bundle found for build #\(buildVersion)"
+            }
+        }
+    }
+
+    static let baseURL = "api.appstoreconnect.apple.com"
+    static let version = "v1"
+
+    // MARK: Private
+
+    private enum Endpoint {
+        case apps
+        case app(appID: String)
+        case versions(appID: String, limit: Int)
+        case build(versionID: String)
+        case builds(appID: String, limit: Int)
+        case buildBundles(buildID: String)
+        case buildBundleFileSizes(bundleID: String)
+
+        // MARK: Internal
+
+        var httpMethod: HTTPRequest.Method {
+            .get
+        }
+
+        var path: String {
+            switch self {
+            case .apps:
+                "apps?fields[apps]=bundleId,name"
+            case .app(let appID):
+                "apps/\(appID)?fields[apps]=bundleId,name"
+            case .versions(let appID, let limit):
+                "apps/\(appID)?include=appStoreVersions&fields[apps]=bundleId&fields[appStoreVersions]=versionString&limit[appStoreVersions]=\(limit)"
+            case .build(let versionID):
+                "appStoreVersions/\(versionID)?include=build&fields[appStoreVersions]=&fields[builds]=uploadedDate,version"
+            case .builds(let appID, let limit):
+                "builds?filter[app]=\(appID)&limit=\(limit)&fields[builds]=uploadedDate,version"
+            case .buildBundles(let buildID):
+                "builds/\(buildID)?include=buildBundles&fields[builds]=&fields[buildBundles]="
+            case .buildBundleFileSizes(let bundleID):
+                "buildBundles/\(bundleID)/buildBundleFileSizes"
+            }
+        }
+
+        var request: HTTPRequest {
+            .init(
+                method: httpMethod,
+                scheme: "https",
+                authority: AppStoreConnect.baseURL,
+                path: "/\(AppStoreConnect.version)/\(path)"
+            )
+        }
+    }
+
+    private let client: APIClient
+    private let decoder = JSONDecoder()
+
     private func sizes(
         totalCount: Int,
         progress: ((Float) -> Void)?,
@@ -189,7 +200,7 @@ public actor AppStoreConnect {
             return try await client.send(request: endpoint.request)
         } catch let error as APIClient.RequestError {
             switch error {
-            case let .http(_, data):
+            case .http(_, let data):
                 throw (try? decoder.decode(ErrorResponse.self, from: data)) ?? error
             }
         } catch {

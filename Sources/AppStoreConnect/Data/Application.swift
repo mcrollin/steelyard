@@ -5,9 +5,25 @@
 import Foundation
 
 public struct Application: Decodable {
+
+    // MARK: Lifecycle
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(String.self, forKey: .id)
+
+        let attributesContainer = try container.nestedContainer(keyedBy: AttributesCodingKeys.self, forKey: .attributes)
+        name = try attributesContainer.decode(String.self, forKey: .name)
+        bundleId = try attributesContainer.decode(String.self, forKey: .bundleId)
+    }
+
+    // MARK: Public
+
     public let id: String
     public let name: String
     public let bundleId: String
+
+    // MARK: Private
 
     private enum CodingKeys: String, CodingKey {
         case id
@@ -18,14 +34,5 @@ public struct Application: Decodable {
     private enum AttributesCodingKeys: String, CodingKey {
         case name
         case bundleId
-    }
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        id = try container.decode(String.self, forKey: .id)
-
-        let attributesContainer = try container.nestedContainer(keyedBy: AttributesCodingKeys.self, forKey: .attributes)
-        name = try attributesContainer.decode(String.self, forKey: .name)
-        bundleId = try attributesContainer.decode(String.self, forKey: .bundleId)
     }
 }
