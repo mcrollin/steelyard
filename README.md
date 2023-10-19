@@ -52,22 +52,22 @@ To use Steelyard, you'll need to provide several details that are obtained via A
 Follow the following steps to create an API key and retrieve the necessary information.
 
 ### Step 1: Create an API Key
-1. Go to [App Store Connect > Users and Access > Keys section ](https://appstoreconnect.apple.com/access/api).
+1. Go to [App Store Connect > Users and Access > Keys > App Store Connect API](https://appstoreconnect.apple.com/access/api).
 2. Click the + button to create a new key.
-3. Give the key a name, and enable access to App Store Connect API.
-4. Download the .p8 file that is generated.
+3. Give the key a name, select `Developer` (or higher) access role and generate it.
+4. Download the generated .p8 file.
 
 _Note: Store this file in a secure place, as you won't be able to download it again._
 
 ### Step 2: Retrieve Key and Issuer IDs
-1. The Key ID is visible in the portal where you download the key.
-2. The Issuer ID is available in the App Store Connect dashboard, under the Users and Access section.
+1. In the list, find your key, hover over the Key ID and tap on the `Copy Key ID` button.
+2. The Issuer ID with a `Copy` button is available right above the list of keys, under the Users and Access section.
 
 ### Step 3: Locate Private Key Path
 The Private Key Path is the location where you've stored the downloaded .p8 file.
 
 ### Step 4: Find Your App ID
-The App ID can be found in the App Store Connect dashboard, under the My Apps section.
+The App ID can be found in the [App Store Connect > Apps > General > App Information > General Information > Apple ID](https://appstoreconnect.apple.com/apps).
 
 ---
 
