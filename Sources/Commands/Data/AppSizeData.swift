@@ -34,7 +34,8 @@ struct AppSizeData: Codable {
                 : nil
         }
 
-        appName = app.name
+        id = app.id
+        name = app.name
         self.sizes = Sizes(download: sizes.download, install: sizes.install)
     }
 
@@ -47,7 +48,8 @@ struct AppSizeData: Codable {
         let install: [String: DeviceSizes]?
     }
 
-    let appName: String
+    let id: String
+    let name: String
     let sizes: Sizes
 
     func write(to filePath: String? = nil) async throws -> URL {

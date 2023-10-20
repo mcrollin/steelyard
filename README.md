@@ -116,7 +116,8 @@ Produces a JSON file with in-depth size metrics for a specific app with the foll
 
 ```json
 {
-  "appName": "ExampleApp",
+  "id": "123456789",
+  "name": "ExampleApp",
   "sizes": {
     "download": {
       "5.3.0": {
