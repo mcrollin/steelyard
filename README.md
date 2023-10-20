@@ -104,6 +104,7 @@ OPTIONS:
                           Include install sizes. (default: --install-size)
   -o, --output <output>   Specify the destination path for the generated file.
   -v, --verbose           Display all information messages.
+  --dark-scheme           Set to dark color scheme.
   --reference-device-identifier <reference-device-identifier>
                           The reference device to highlight in the charts. (default: iPhone12,1)
   -h, --help              Show help information.

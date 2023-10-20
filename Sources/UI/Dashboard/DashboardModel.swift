@@ -12,12 +12,14 @@ public struct DashboardModel {
         appName: String,
         downloadSizes: [Size]?,
         installSizes: [Size]?,
-        referenceDeviceIdentifier: String?
+        referenceDeviceIdentifier: String?,
+        darkScheme: Bool
     ) {
         self.appName = appName
         self.downloadSizes = downloadSizes
         self.installSizes = installSizes
         self.referenceDeviceIdentifier = referenceDeviceIdentifier
+        self.darkScheme = darkScheme
     }
 
     // MARK: Public
@@ -44,4 +46,5 @@ public struct DashboardModel {
     let downloadSizes: [Size]?
     let installSizes: [Size]?
     let referenceDeviceIdentifier: String?
+    let darkScheme: Bool
 }

@@ -31,6 +31,7 @@ public struct Dashboard: View {
         }
         .padding()
         .background(.background)
+        .colorScheme(model.darkScheme ? .dark : .light)
     }
 
     // MARK: Private

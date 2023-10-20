@@ -13,7 +13,8 @@ extension DashboardModel {
         sizesByBuildsAndVersions: [SizesByBuildAndVersion],
         includeDownloadSize: Bool,
         includeInstallSize: Bool,
-        referenceDeviceIdentifier: String?
+        referenceDeviceIdentifier: String?,
+        darkScheme: Bool
     ) {
         self.init(
             appName: app.name,
@@ -35,7 +36,8 @@ extension DashboardModel {
                     )
                 }
                 : nil,
-            referenceDeviceIdentifier: referenceDeviceIdentifier
+            referenceDeviceIdentifier: referenceDeviceIdentifier,
+            darkScheme: darkScheme
         )
     }
 }

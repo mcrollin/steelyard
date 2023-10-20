@@ -25,6 +25,9 @@ public struct GraphCommand: AsyncParsableCommand, AppSizeFetcher {
     @OptionGroup public var exportOptions: ExportOptions
     @OptionGroup public var runOptions: RunOptions
 
+    @Flag(help: "Set to dark color scheme.")
+    public var darkScheme = false
+
     @Option(help: "The reference device to highlight in the charts.")
     public var referenceDeviceIdentifier = "iPhone12,1"
 
@@ -37,7 +40,8 @@ public struct GraphCommand: AsyncParsableCommand, AppSizeFetcher {
                 sizesByBuildsAndVersions: sizesByBuildsAndVersions,
                 includeDownloadSize: exportOptions.includeDownloadSize,
                 includeInstallSize: exportOptions.includeInstallSize,
-                referenceDeviceIdentifier: referenceDeviceIdentifier
+                referenceDeviceIdentifier: referenceDeviceIdentifier,
+                darkScheme: darkScheme
             )
         )
         let url = try await dashboard.renderImage(to: exportOptions.output)
