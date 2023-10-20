@@ -94,18 +94,18 @@ ARGUMENTS:
   <app-id>                The App ID.
 
 OPTIONS:
-  -v, --verbose           Display all information messages.
+  -l, --limit <limit>     Specify the number of items to analyze. (default: 30)
+        - For builds, the range is 1 to 200.
+        - For versions, the range is 1 to 50.
   --by-version            Fetch sizes categorized by version, not build. Slower to retrieve.
-  -l, --limit <limit>     Specify the number of items to analyze.
-                          - For builds, the range is 1 to 200 to 200.
-                          - For versions, the range is 1 to 50. (default: 30)
   --download-size/--no-download-size
                           Include download sizes. (default: --download-size)
   --install-size/--no-install-size
                           Include install sizes. (default: --install-size)
+  -o, --output <output>   Specify the destination path for the generated file.
+  -v, --verbose           Display all information messages.
   --reference-device-identifier <reference-device-identifier>
                           The reference device to highlight in the charts. (default: iPhone12,1)
-  -o, --output <output>   Specify the destination path for the generated PNG file.
   -h, --help              Show help information.
 
 ```
@@ -140,7 +140,7 @@ Produces a JSON file with in-depth size metrics for a specific app with the foll
 The command format is as follows:
 
 ```bash
-USAGE: steelyard data <key-id> <issuer-id> <private-key-path> <app-id> [--verbose] [--by-version] [--limit <limit>] [--download-size] [--no-download-size] [--install-size] [--no-install-size] [--output <output>]
+USAGE: steelyard data <key-id> <issuer-id> <private-key-path> <app-id> [--limit <limit>] [--by-version] [--download-size] [--no-download-size] [--install-size] [--no-install-size] [--output <output>] [--verbose]
 
 ARGUMENTS:
   <key-id>                The key ID from the Apple Developer portal.
@@ -149,16 +149,16 @@ ARGUMENTS:
   <app-id>                The App ID.
 
 OPTIONS:
-  -v, --verbose           Display all information messages.
+  -l, --limit <limit>     Specify the number of items to analyze. (default: 30)
+        - For builds, the range is 1 to 200.
+        - For versions, the range is 1 to 50.
   --by-version            Fetch sizes categorized by version, not build. Slower to retrieve.
-  -l, --limit <limit>     Specify the number of items to analyze.
-                          - For builds, the range is 1 to 200 to 200.
-                          - For versions, the range is 1 to 50. (default: 30)
   --download-size/--no-download-size
                           Include download sizes. (default: --download-size)
   --install-size/--no-install-size
                           Include install sizes. (default: --install-size)
-  -o, --output <output>   Specify the destination path for the export JSON file.
+  -o, --output <output>   Specify the destination path for the generated file.
+  -v, --verbose           Display all information messages.
   -h, --help              Show help information.
 ```
 
