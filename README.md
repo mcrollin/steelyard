@@ -110,12 +110,6 @@ OPTIONS:
 
 ```
 
-For more information, run:
-
-```bash
-steelyard graph --help
-```
-
 ### 💾 Export Detailed Size Metrics
 
 Produces a JSON file with in-depth size metrics for a specific app with the following format:
@@ -166,12 +160,6 @@ OPTIONS:
                           Include install sizes. (default: --install-size)
   -o, --output <output>   Specify the destination path for the export JSON file.
   -h, --help              Show help information.
-```
-
-For more information, run:
-
-```bash
-steelyard data --help
 ```
 
 ---
