@@ -80,7 +80,7 @@ For each command, you'll need to supply the following arguments: `key-id`, `issu
 
 Create a PNG image that displays historical size graphs for a specific app.
 
-![graph](https://github.com/mcrollin/Steelyard/assets/7055162/01e41e6f-b328-4bc9-8179-98863f3f205d)
+![app-size](https://github.com/mcrollin/Steelyard/assets/7055162/9c068878-923b-4a4a-b80a-ab9a04ffaf50)
 
 The command format is as follows:
 
