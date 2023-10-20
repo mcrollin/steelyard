@@ -12,7 +12,7 @@
 ![License](https://img.shields.io/github/license/mcrollin/Steelyard.svg)
 
 ## Overview
-Steelyard is a utility for generating graphs related to app size evolution.
+With Steelyard, generate insightful App Size Graphs & JSON Metrics using App Store Connect API on Mac.
 
 ---
 
