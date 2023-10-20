@@ -27,17 +27,11 @@ let package = Package(
             ]
         ),
         .target(
-            name: "Console",
-            dependencies: [
-                .product(name: "Rainbow", package: "Rainbow"),
-            ]
-        ),
-        .target(
             name: "Commands",
             dependencies: [
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
+                .product(name: "Rainbow", package: "Rainbow"),
                 .target(name: "AppStoreConnect"),
-                .target(name: "Console"),
                 .target(name: "Platform"),
                 .target(name: "UI"),
             ]

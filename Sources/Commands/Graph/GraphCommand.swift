@@ -3,7 +3,6 @@
 //
 
 import ArgumentParser
-import Console
 import Foundation
 import Platform
 import UI
