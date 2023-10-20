@@ -2,7 +2,7 @@
   <img src="https://github.com/mcrollin/Steelyard/assets/7055162/89c5cd9f-fa24-4a4a-bcaa-a3f9d94f80e8" width="300" height="300">
 </div>
 
-# ⚖️ Steelyard
+# ⚖️ steelyard
 
 [![Build Status](https://github.com/mcrollin/Steelyard/actions/workflows/ci.yml/badge.svg)](https://github.com/mcrollin/Steelyard/actions/workflows/ci.yml)
 [![Release](https://img.shields.io/github/release/mcrollin/Steelyard.svg)](https://github.com/mcrollin/Steelyard/releases)
@@ -12,14 +12,14 @@
 ![License](https://img.shields.io/github/license/mcrollin/Steelyard.svg)
 
 ## Overview
-With Steelyard, generate insightful App Size Graphs & JSON Metrics using App Store Connect API on Mac.
+With **steelyard**, generate insightful App Size Graphs & JSON Metrics using App Store Connect API on Mac.
 
 ---
 
 ## Installation
 
 ### Homebrew (Recommended)
-To install Steelyard using Homebrew, run the following command:
+To install steelyard using Homebrew, run the following command:
 ```bash
 brew install mcrollin/steelyard/steelyard
 ```
@@ -28,7 +28,7 @@ brew install mcrollin/steelyard/steelyard
 To install using Mint, run:
 
 ```bash
-mint install mcrollin/Steelyard
+mint install mcrollin/steelyard
 ```
 
 ### Manual Installation
@@ -48,7 +48,7 @@ swift run steelyard
 
 ## Prerequisites
 
-To use Steelyard, you'll need to provide several details that are obtained via Apple's Developer Portal.
+To use **steelyard**, you'll need to provide several details that are obtained via Apple's Developer Portal.
 
 Follow the following steps to create an API key and retrieve the necessary information.
 
