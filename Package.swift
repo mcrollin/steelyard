@@ -4,12 +4,12 @@
 import PackageDescription
 
 let package = Package(
-    name: "Steelyard",
+    name: "steelyard",
     platforms: [
         .macOS(.v13),
     ],
     products: [
-        .executable(name: "steelyard", targets: ["Steelyard"]),
+        .executable(name: "steelyard", targets: ["SteelyardCommand"]),
     ],
     dependencies: [
         .package(path: "Packages/AppStoreConnect"),
@@ -40,7 +40,7 @@ let package = Package(
             ]
         ),
         .executableTarget(
-            name: "Steelyard",
+            name: "SteelyardCommand",
             dependencies: [
                 .target(name: "DataCommand"),
                 .target(name: "GraphCommand"),
