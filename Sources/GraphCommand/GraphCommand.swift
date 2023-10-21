@@ -2,10 +2,11 @@
 //  Copyright © Marc Rollin.
 //
 
+import AppSizeFetcher
 import ArgumentParser
+import Console
 import Foundation
 import Platform
-import UI
 
 public struct GraphCommand: AsyncParsableCommand, AppSizeFetcher {
 

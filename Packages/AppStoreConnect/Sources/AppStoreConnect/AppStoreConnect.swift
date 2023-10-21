@@ -2,6 +2,8 @@
 //  Copyright © Marc Rollin.
 //
 
+import AppStoreConnectClient
+import AppStoreConnectModels
 import Foundation
 import HTTPTypes
 
@@ -143,7 +145,7 @@ public actor AppStoreConnect {
         }
     }
 
-    private let client: APIClient
+    private let client: AppStoreConnectClient
     private let decoder = JSONDecoder()
 
     private func sizes(
@@ -198,7 +200,7 @@ public actor AppStoreConnect {
     private func data(endpoint: Endpoint) async throws -> Data {
         do {
             return try await client.send(request: endpoint.request)
-        } catch let error as APIClient.RequestError {
+        } catch let error as AppStoreConnectClient.RequestError {
             switch error {
             case .http(_, let data):
                 throw (try? decoder.decode(ErrorResponse.self, from: data)) ?? error

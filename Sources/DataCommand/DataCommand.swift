@@ -2,7 +2,10 @@
 //  Copyright © Marc Rollin.
 //
 
+import AppSizeFetcher
+import AppStoreConnectModels
 import ArgumentParser
+import Console
 import Foundation
 import Platform
 

@@ -2,7 +2,7 @@
 //  Copyright © Marc Rollin.
 //
 
-import AppStoreConnect
+import AppStoreConnectModels
 import Foundation
 
 struct AppSizeData: Codable {

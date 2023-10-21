@@ -7,23 +7,23 @@ import HTTPTypes
 import HTTPTypesFoundation
 import SwiftJWT
 
-actor APIClient {
+public actor AppStoreConnectClient {
 
     // MARK: Lifecycle
 
-    init(keyID: String, issuerID: String, audience: String, privateKeyPath: String) throws {
+    public init(keyID: String, issuerID: String, audience: String, privateKeyPath: String) throws {
         self.keyID = keyID
         self.issuerID = issuerID
         self.audience = audience
         privateKey = try Self.privateKey(atPath: privateKeyPath)
     }
 
-    // MARK: Internal
+    // MARK: Public
 
-    enum RequestError: Error, CustomStringConvertible {
+    public enum RequestError: Error, CustomStringConvertible {
         case http(code: Int, data: Data)
 
-        var description: String {
+        public var description: String {
             switch self {
             case .http(let code, _):
                 var explanation = ""
@@ -40,7 +40,7 @@ actor APIClient {
         }
     }
 
-    func send(request: HTTPRequest) async throws -> Data {
+    public func send(request: HTTPRequest) async throws -> Data {
         let jwt = try jwtToken(httpMethod: request.method.rawValue, path: request.path!)
 
         var request = request

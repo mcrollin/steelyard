@@ -6,7 +6,12 @@ import ArgumentParser
 import Foundation
 
 public struct FetchOptions: ParsableArguments {
+
+    // MARK: Lifecycle
+
     public init() { }
+
+    // MARK: Public
 
     @Option(
         name: .shortAndLong,

@@ -5,33 +5,33 @@
 import Foundation
 import Rainbow
 
-enum Console {
+public enum Console {
 
-    // MARK: Internal
+    // MARK: Public
 
-    static var verbose = false
+    public static var verbose = false
 
-    static func debug(_ message: any StringProtocol, prefix: String? = nil) {
+    public static func debug(_ message: any StringProtocol, prefix: String? = nil) {
         log(.debug, message, prefix: prefix)
     }
 
-    static func info(_ message: any StringProtocol, prefix: String? = nil) {
+    public static func info(_ message: any StringProtocol, prefix: String? = nil) {
         log(.info, message, prefix: prefix)
     }
 
-    static func success(_ message: any StringProtocol, prefix: String? = nil) {
+    public static func success(_ message: any StringProtocol, prefix: String? = nil) {
         log(.success, message, prefix: prefix)
     }
 
-    static func warn(_ message: any StringProtocol, prefix: String? = nil) {
+    public static func warn(_ message: any StringProtocol, prefix: String? = nil) {
         log(.warn, message, prefix: prefix)
     }
 
-    static func error(_ message: any StringProtocol, prefix: String? = nil) {
+    public static func error(_ message: any StringProtocol, prefix: String? = nil) {
         log(.error, message, prefix: prefix)
     }
 
-    static func progress(_ progress: Float, columns: Int) -> String {
+    public static func progress(_ progress: Float, columns: Int) -> String {
         let completedBars = lroundf(progress * Float(columns))
         let remainingBars = columns - completedBars
         let formattedPercentage = "\(lroundf(progress * 100))%"

@@ -3,7 +3,9 @@
 //
 
 import AppStoreConnect
+import AppStoreConnectModels
 import ArgumentParser
+import Console
 import Foundation
 
 // MARK: - AppSizeFetcher

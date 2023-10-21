@@ -12,42 +12,39 @@ let package = Package(
         .executable(name: "steelyard", targets: ["Steelyard"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/apple/swift-argument-parser.git", .upToNextMajor(from: "1.2.0")),
-        .package(url: "https://github.com/Kitura/Swift-JWT", .upToNextMajor(from: "4.0.1")),
-        .package(url: "https://github.com/apple/swift-http-types", .upToNextMajor(from: "1.0.0")),
-        .package(url: "https://github.com/onevcat/Rainbow", .upToNextMajor(from: "4.0.0")),
+        .package(path: "Packages/AppStoreConnect"),
+        .package(path: "Packages/Console"),
+        .package(path: "Packages/CommandLine"),
+        .package(path: "Packages/Platform"),
     ],
     targets: [
         .target(
-            name: "AppStoreConnect",
+            name: "AppSizeFetcher",
             dependencies: [
-                .product(name: "SwiftJWT", package: "Swift-JWT"),
-                .product(name: "HTTPTypes", package: "swift-http-types"),
-                .product(name: "HTTPTypesFoundation", package: "swift-http-types"),
+                .product(name: "AppStoreConnect", package: "AppStoreConnect"),
+                .product(name: "Console", package: "Console"),
+                .product(name: "CommandLine", package: "CommandLine"),
+                .product(name: "Platform", package: "Platform"),
             ]
         ),
         .target(
-            name: "Commands",
+            name: "DataCommand",
             dependencies: [
-                .product(name: "ArgumentParser", package: "swift-argument-parser"),
-                .product(name: "Rainbow", package: "Rainbow"),
-                .target(name: "AppStoreConnect"),
-                .target(name: "Platform"),
-                .target(name: "UI"),
+                .target(name: "AppSizeFetcher"),
             ]
         ),
         .target(
-            name: "Platform"
+            name: "GraphCommand",
+            dependencies: [
+                .target(name: "AppSizeFetcher"),
+            ]
         ),
         .executableTarget(
             name: "Steelyard",
             dependencies: [
-                .product(name: "ArgumentParser", package: "swift-argument-parser"),
-                .target(name: "Commands"),
+                .target(name: "DataCommand"),
+                .target(name: "GraphCommand"),
             ]
-        ),
-        .target(
-            name: "UI"
         ),
     ]
 )

@@ -2,9 +2,8 @@
 //  Copyright © Marc Rollin.
 //
 
-import AppStoreConnect
+import AppStoreConnectModels
 import Foundation
-import UI
 
 extension DashboardModel {
 

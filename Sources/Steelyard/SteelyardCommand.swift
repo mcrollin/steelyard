@@ -3,8 +3,9 @@
 //
 
 import ArgumentParser
-import Commands
+import DataCommand
 import Foundation
+import GraphCommand
 
 @main
 struct SteelyardCommand: AsyncParsableCommand {
