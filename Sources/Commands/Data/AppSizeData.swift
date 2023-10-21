@@ -15,42 +15,51 @@ struct AppSizeData: Codable {
         includeDownloadSize: Bool,
         includeInstallSize: Bool
     ) {
-        let sizes = sizesByBuildAndVersions.reduce(into: (
-            download: [String: Sizes.DeviceSizes](),
-            install: [String: Sizes.DeviceSizes]()
-        )) { result, sizesByBuildAndVersion in
-            let key = sizesByBuildAndVersion.version?.version ?? sizesByBuildAndVersion.build.version
-
-            result.download[key] = includeDownloadSize
-                ? sizesByBuildAndVersion.fileSizes.reduce(into: Sizes.DeviceSizes()) { dict, fileSize in
-                    dict[fileSize.deviceModel] = fileSize.downloadBytes
-                }
-                : nil
-
-            result.install[key] = includeInstallSize
-                ? sizesByBuildAndVersion.fileSizes.reduce(into: Sizes.DeviceSizes()) { dict, fileSize in
-                    dict[fileSize.deviceModel] = fileSize.installBytes
-                }
-                : nil
-        }
-
         id = app.id
         name = app.name
-        self.sizes = Sizes(download: sizes.download, install: sizes.install)
+        bundle_id = app.bundleId
+        builds = sizesByBuildAndVersions.reduce(into: [String: BuildData]()) { result, sizesByBuildAndVersion in
+            let buildData = BuildData(
+                id: sizesByBuildAndVersion.build.id,
+                uploaded_date: sizesByBuildAndVersion.build.uploadedDate,
+                version: sizesByBuildAndVersion.build.version,
+                marketing_version: sizesByBuildAndVersion.version?.version,
+                sizes: sizesByBuildAndVersion.fileSizes.reduce(into: [String: BuildData.DeviceData]()) { dict, fileSize in
+                    dict[fileSize.deviceModel] = BuildData.DeviceData(
+                        id: fileSize.id,
+                        device_model: fileSize.deviceModel,
+                        os_version: fileSize.osVersion,
+                        download_bytes: includeDownloadSize ? fileSize.downloadBytes : nil,
+                        install_bytes: includeInstallSize ? fileSize.installBytes : nil
+                    )
+                }
+            )
+            result[sizesByBuildAndVersion.version?.version ?? sizesByBuildAndVersion.build.version] = buildData
+        }
     }
 
     // MARK: Internal
 
-    struct Sizes: Codable {
-        typealias DeviceSizes = [String: Int]
+    struct BuildData: Codable {
+        struct DeviceData: Codable {
+            let id: String
+            let device_model: String
+            let os_version: String
+            let download_bytes: Int?
+            let install_bytes: Int?
+        }
 
-        let download: [String: DeviceSizes]?
-        let install: [String: DeviceSizes]?
+        let id: String
+        let uploaded_date: Date
+        let version: String
+        let marketing_version: String?
+        let sizes: [String: DeviceData]
     }
 
     let id: String
     let name: String
-    let sizes: Sizes
+    let bundle_id: String
+    let builds: [String: BuildData]
 
     func write(to filePath: String? = nil) async throws -> URL {
         let data = try JSONEncoder().encode(self)
@@ -67,5 +76,4 @@ struct AppSizeData: Codable {
         try data.write(to: url)
         return url
     }
-
 }

@@ -117,26 +117,29 @@ Produces a JSON file with in-depth size metrics for a specific app with the foll
 
 ```json
 {
-  "id": "123456789",
-  "name": "ExampleApp",
-  "sizes": {
-    "download": {
-      "5.3.0": {
-        "iPhone11": 1200000,
-        "iPhone12": 1300000
-      },
-      ...
+  "id": "1234567890",
+  "name": "ExampleApp: AI FooBar",
+  "bundle_id": "com.foobar.example",
+  "builds": {
+    "6.1.0": {
+      "marketing_version": "6.1.0",
+      "version": "910",
+      "id": "abcd1234-5678-9def-ghij-klmnopqrs",
+      "uploaded_at": "2023-05-01T12:34:56Z",
+      "sizes": {
+        "iPhone12,1": {
+          "id": "xyza9876-5432-1wvu-tsqr-onmlkjihgf",
+          "os_version": "Universal",
+          "device_model": "iPhone12,1",
+          "download_bytes": 987654321,
+          "install_bytes": 123456789
+        },
+        ...
+      }
     },
-    "install": {
-      "5.3.0": {
-        "iPhone11": 2500000,
-        "iPhone12": 2600000
-      },
-      ...
-    }
+    ...
   }
 }
-
 ```
 
 The command format is as follows:

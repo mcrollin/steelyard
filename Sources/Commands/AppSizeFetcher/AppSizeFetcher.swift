@@ -32,7 +32,7 @@ extension AppSizeFetcher {
         let sizesByBuildsAndVersions: [SizesByBuildAndVersion]
 
         if fetchOptions.byVersion {
-            Console.debug("Fetching \(fetchOptions.limit) most recent versions…")
+            Console.debug("Fetching \(fetchOptions.limit) most recent versions (may take some time)…")
             let versions = try await appStoreConnect.versions(app: app, limit: fetchOptions.limit)
             Console.info("Retrieved \(versions.count) most recent versions (maximum limit set to \(fetchOptions.limit))")
 
