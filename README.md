@@ -127,7 +127,7 @@ Produces a JSON file with in-depth size metrics for a specific app with the foll
       "id": "abcd1234-5678-9def-ghij-klmnopqrs",
       "uploaded_at": "2023-05-01T12:34:56Z",
       "sizes": {
-        "iPhone12,1": {
+        {
           "id": "xyza9876-5432-1wvu-tsqr-onmlkjihgf",
           "os_version": "Universal",
           "device_model": "iPhone12,1",

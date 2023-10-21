@@ -127,7 +127,7 @@ public actor AppStoreConnect {
             case .builds(let appID, let limit):
                 "builds?filter[app]=\(appID)&limit=\(limit)&fields[builds]=uploadedDate,version"
             case .buildBundles(let buildID):
-                "builds/\(buildID)?include=buildBundles&fields[builds]=&fields[buildBundles]="
+                "builds/\(buildID)?include=buildBundles&fields[builds]=&fields[buildBundles]=bundleType"
             case .buildBundleFileSizes(let bundleID):
                 "buildBundles/\(bundleID)/buildBundleFileSizes"
             }
@@ -170,7 +170,7 @@ public actor AppStoreConnect {
     }
 
     private func sizes(byBuild build: Build, version: Version?) async throws -> BuildSizes {
-        guard let mainBundle = try await buildBundles(build: build).first else {
+        guard let mainBundle = try await buildBundles(build: build).first(where: { $0.bundleType == "APP" }) else {
             throw ConnectError.missingBuildBundle(buildID: build.id, buildVersion: build.version)
         }
 

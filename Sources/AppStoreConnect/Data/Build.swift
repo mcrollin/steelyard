@@ -8,7 +8,6 @@ public struct Build: Decodable {
 
     // MARK: Lifecycle
 
-
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         id = try container.decode(String.self, forKey: .id)
