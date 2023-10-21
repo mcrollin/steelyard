@@ -14,12 +14,12 @@ public protocol AppSizeFetcher {
     var exportOptions: ExportOptions { get }
     var runOptions: RunOptions { get }
 
-    func fetchAppSize() async throws -> (Application, [SizesByBuildAndVersion])
+    func fetchAppSize() async throws -> (Application, [BuildSizes])
 }
 
 extension AppSizeFetcher {
 
-    public func fetchAppSize() async throws -> (Application, [SizesByBuildAndVersion]) {
+    public func fetchAppSize() async throws -> (Application, [BuildSizes]) {
         let appStoreConnect: AppStoreConnect = try AppStoreConnect(
             keyID: appStoreConnectArguments.keyID,
             issuerID: appStoreConnectArguments.issuerID,
@@ -29,7 +29,7 @@ extension AppSizeFetcher {
         let app = try await appStoreConnect.app(appID: appStoreConnectArguments.appID)
         Console.info("Successfully identified app with ID \(app.id): \"\(app.name)\"")
 
-        let sizesByBuildsAndVersions: [SizesByBuildAndVersion]
+        let buildsSizes: [BuildSizes]
 
         if fetchOptions.byVersion {
             Console.debug("Fetching \(fetchOptions.limit) most recent versions (may take some time)…")
@@ -37,29 +37,29 @@ extension AppSizeFetcher {
             Console.info("Retrieved \(versions.count) most recent versions (maximum limit set to \(fetchOptions.limit))")
 
             Console.debug("")
-            sizesByBuildsAndVersions = try await appStoreConnect.sizes(versions: versions) { progress in
+            buildsSizes = try await appStoreConnect.sizes(versions: versions) { progress in
                 Console.debug(
                     "Fetching individual version sizes… \(Console.progress(progress, columns: 40))",
                     prefix: "\u{1B}[1A\u{1B}[K"
                 )
             }
-            Console.info("Fetched file sizes for \(sizesByBuildsAndVersions.count) builds")
+            Console.info("Fetched file sizes for \(buildsSizes.count) builds")
         } else {
             Console.debug("Fetching \(fetchOptions.limit) most recent builds…")
             let builds = try await appStoreConnect.builds(app: app, limit: fetchOptions.limit)
             Console.info("Retrieved \(builds.count) most recent builds (maximum limit set to \(fetchOptions.limit))")
 
             Console.debug("")
-            sizesByBuildsAndVersions = try await appStoreConnect.sizes(builds: builds) { progress in
+            buildsSizes = try await appStoreConnect.sizes(builds: builds) { progress in
                 Console.debug(
                     "Fetching individual build sizes… \(Console.progress(progress, columns: 40))",
                     prefix: "\u{1B}[1A\u{1B}[K"
                 )
             }
-            Console.info("Fetched file sizes for \(sizesByBuildsAndVersions.count) versions")
+            Console.info("Fetched file sizes for \(buildsSizes.count) versions")
         }
 
-        return (app, sizesByBuildsAndVersions)
+        return (app, buildsSizes)
     }
 }
 

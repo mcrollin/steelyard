@@ -51,7 +51,7 @@ public actor AppStoreConnect {
         try await requestData(endpoint: .buildBundleFileSizes(bundleID: buildBundle.id))
     }
 
-    public func sizes(versions: [Version], progress: ((Float) -> Void)?) async throws -> [SizesByBuildAndVersion] {
+    public func sizes(versions: [Version], progress: ((Float) -> Void)?) async throws -> [BuildSizes] {
         guard !versions.isEmpty else { return [] }
 
         return try await sizes(totalCount: versions.count, progress: progress) { group in
@@ -66,7 +66,7 @@ public actor AppStoreConnect {
         }
     }
 
-    public func sizes(builds: [Build], progress: ((Float) -> Void)?) async throws -> [SizesByBuildAndVersion] {
+    public func sizes(builds: [Build], progress: ((Float) -> Void)?) async throws -> [BuildSizes] {
         guard !builds.isEmpty else { return [] }
 
         return try await sizes(totalCount: builds.count, progress: progress) { group in
@@ -149,27 +149,27 @@ public actor AppStoreConnect {
     private func sizes(
         totalCount: Int,
         progress: ((Float) -> Void)?,
-        addTasks: (inout ThrowingTaskGroup<SizesByBuildAndVersion, Error>) -> Void
-    ) async throws -> [SizesByBuildAndVersion] {
-        try await withThrowingTaskGroup(of: SizesByBuildAndVersion.self) { group in
+        addTasks: (inout ThrowingTaskGroup<BuildSizes, Error>) -> Void
+    ) async throws -> [BuildSizes] {
+        try await withThrowingTaskGroup(of: BuildSizes.self) { group in
             addTasks(&group)
 
-            var sizesByBuildAndVersion: [SizesByBuildAndVersion] = []
+            var buildSizes: [BuildSizes] = []
             let totalCount = Float(totalCount)
-            progress?(Float(sizesByBuildAndVersion.count)/totalCount)
+            progress?(Float(buildSizes.count)/totalCount)
             for try await sizes in group {
-                sizesByBuildAndVersion.append(sizes)
-                progress?(Float(sizesByBuildAndVersion.count)/totalCount)
+                buildSizes.append(sizes)
+                progress?(Float(buildSizes.count)/totalCount)
             }
-            sizesByBuildAndVersion.sort { lhs, rhs in
+            buildSizes.sort { lhs, rhs in
                 lhs.build.uploadedDate < rhs.build.uploadedDate
             }
 
-            return sizesByBuildAndVersion
+            return buildSizes
         }
     }
 
-    private func sizes(byBuild build: Build, version: Version?) async throws -> SizesByBuildAndVersion {
+    private func sizes(byBuild build: Build, version: Version?) async throws -> BuildSizes {
         guard let mainBundle = try await buildBundles(build: build).first else {
             throw ConnectError.missingBuildBundle(buildID: build.id, buildVersion: build.version)
         }

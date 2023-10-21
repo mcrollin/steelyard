@@ -4,7 +4,7 @@
 
 import Foundation
 
-public struct SizesByBuildAndVersion {
+public struct BuildSizes {
     public let version: Version?
     public let build: Build
     public let fileSizes: [BuildBundleFileSize]

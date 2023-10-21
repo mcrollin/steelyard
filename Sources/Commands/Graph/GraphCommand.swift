@@ -33,11 +33,11 @@ public struct GraphCommand: AsyncParsableCommand, AppSizeFetcher {
 
     public func run() async throws {
         Console.verbose = runOptions.verbose
-        let (app, sizesByBuildsAndVersions) = try await fetchAppSize()
+        let (app, buildsSizes) = try await fetchAppSize()
         let dashboard = Dashboard(
             model: .init(
                 app: app,
-                sizesByBuildsAndVersions: sizesByBuildsAndVersions,
+                buildsSizes: buildsSizes,
                 includeDownloadSize: exportOptions.includeDownloadSize,
                 includeInstallSize: exportOptions.includeInstallSize,
                 referenceDeviceIdentifier: referenceDeviceIdentifier,

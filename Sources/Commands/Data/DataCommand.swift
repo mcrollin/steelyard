@@ -28,10 +28,10 @@ public struct DataCommand: AsyncParsableCommand, AppSizeFetcher {
 
     public func run() async throws {
         Console.verbose = runOptions.verbose
-        let (app, sizesByBuildsAndVersions) = try await fetchAppSize()
+        let (app, buildsSizes) = try await fetchAppSize()
         let data = AppSizeData(
             app: app,
-            sizesByBuildAndVersions: sizesByBuildsAndVersions,
+            buildsSizes: buildsSizes,
             includeDownloadSize: exportOptions.includeDownloadSize,
             includeInstallSize: exportOptions.includeInstallSize
         )

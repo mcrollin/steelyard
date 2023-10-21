@@ -11,20 +11,20 @@ struct AppSizeData: Codable {
 
     init(
         app: Application,
-        sizesByBuildAndVersions: [SizesByBuildAndVersion],
+        buildsSizes: [BuildSizes],
         includeDownloadSize: Bool,
         includeInstallSize: Bool
     ) {
         id = app.id
         name = app.name
         bundle_id = app.bundleId
-        builds = sizesByBuildAndVersions.reduce(into: [String: BuildData]()) { result, sizesByBuildAndVersion in
+        builds = buildsSizes.reduce(into: [String: BuildData]()) { result, buildSizes in
             let buildData = BuildData(
-                id: sizesByBuildAndVersion.build.id,
-                uploaded_date: sizesByBuildAndVersion.build.uploadedDate,
-                version: sizesByBuildAndVersion.build.version,
-                marketing_version: sizesByBuildAndVersion.version?.version,
-                sizes: sizesByBuildAndVersion.fileSizes.reduce(into: [String: BuildData.DeviceData]()) { dict, fileSize in
+                id: buildSizes.build.id,
+                uploaded_date: buildSizes.build.uploadedDate,
+                version: buildSizes.build.version,
+                marketing_version: buildSizes.version?.version,
+                sizes: buildSizes.fileSizes.reduce(into: [String: BuildData.DeviceData]()) { dict, fileSize in
                     dict[fileSize.deviceModel] = BuildData.DeviceData(
                         id: fileSize.id,
                         device_model: fileSize.deviceModel,
@@ -34,7 +34,7 @@ struct AppSizeData: Codable {
                     )
                 }
             )
-            result[sizesByBuildAndVersion.version?.version ?? sizesByBuildAndVersion.build.version] = buildData
+            result[buildSizes.version?.version ?? buildSizes.build.version] = buildData
         }
     }
 
