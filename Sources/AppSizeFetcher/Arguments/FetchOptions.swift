@@ -31,6 +31,6 @@ public struct FetchOptions: ParsableArguments {
 
     // MARK: Internal
 
-    static var versionsRangeLimit: ClosedRange<Int> { 1...50 }
-    static var buildsRangeLimit: ClosedRange<Int> { 1...200 }
+    static let versionsRangeLimit: ClosedRange<Int> = 1...50
+    static let buildsRangeLimit: ClosedRange<Int> = 1...200
 }
