@@ -11,11 +11,11 @@ public actor AppStoreConnectClient {
 
     // MARK: Lifecycle
 
-    public init(keyID: String, issuerID: String, audience: String, privateKeyPath: String) throws {
+    public init(keyID: String, issuerID: String, audience: String, privateKey: URL) throws {
         self.keyID = keyID
         self.issuerID = issuerID
         self.audience = audience
-        privateKey = try Self.privateKey(atPath: privateKeyPath)
+        self.privateKey = try Data(contentsOf: privateKey)
     }
 
     // MARK: Public
@@ -73,10 +73,6 @@ public actor AppStoreConnectClient {
     private let issuerID: String
     private let audience: String
     private let privateKey: Data
-
-    private static func privateKey(atPath filePath: String) throws -> Data {
-        try Data(contentsOf: URL(fileURLWithPath: filePath))
-    }
 
     // Helper function to create the JWT token
     private func jwtToken(httpMethod: String, path: String) throws -> String {

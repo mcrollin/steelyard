@@ -6,44 +6,54 @@ import PackageDescription
 let package = Package(
     name: "steelyard",
     platforms: [
-        .macOS(.v13),
+        .macOS(.v14),
     ],
     products: [
-        .executable(name: "steelyard", targets: ["SteelyardCommand"]),
+        .executable(name: "steelyard", targets: ["Steelyard"]),
+        .library(name: "App", targets: ["ApplicationArchive", "TreeMap"])
     ],
     dependencies: [
         .package(path: "Packages/AppStoreConnect"),
-        .package(path: "Packages/Console"),
         .package(path: "Packages/CommandLine"),
         .package(path: "Packages/Platform"),
+        .package(url: "https://github.com/marmelroy/Zip.git", .upToNextMajor(from: "2.1.0")),
     ],
     targets: [
-        .target(
-            name: "AppSizeFetcher",
+        .executableTarget(
+            name: "Steelyard",
             dependencies: [
-                .product(name: "AppStoreConnect", package: "AppStoreConnect"),
-                .product(name: "Console", package: "Console"),
+                .target(name: "Build"),
+                .target(name: "History"),
+            ]
+        ),
+        .target(
+            name: "ApplicationArchive",
+            dependencies: [
+                .product(name: "Platform", package: "Platform"),
+                .product(name: "Zip", package: "Zip"),
+            ]
+        ),
+        .target(
+            name: "Build",
+            dependencies: [
+                .target(name: "ApplicationArchive"),
+                .target(name: "TreeMap"),
                 .product(name: "CommandLine", package: "CommandLine"),
                 .product(name: "Platform", package: "Platform"),
             ]
         ),
         .target(
-            name: "DataCommand",
+            name: "History",
             dependencies: [
-                .target(name: "AppSizeFetcher"),
+                .product(name: "AppStoreConnect", package: "AppStoreConnect"),
+                .product(name: "CommandLine", package: "CommandLine"),
+                .product(name: "Platform", package: "Platform"),
             ]
         ),
         .target(
-            name: "GraphCommand",
+            name: "TreeMap",
             dependencies: [
-                .target(name: "AppSizeFetcher"),
-            ]
-        ),
-        .executableTarget(
-            name: "SteelyardCommand",
-            dependencies: [
-                .target(name: "DataCommand"),
-                .target(name: "GraphCommand"),
+                .product(name: "Platform", package: "Platform"),
             ]
         ),
     ]

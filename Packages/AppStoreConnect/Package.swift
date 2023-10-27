@@ -7,7 +7,6 @@ let package = Package(
     name: "AppStoreConnect",
     platforms: [
         .macOS(.v13),
-        .iOS(.v13),
     ],
     products: [
         .library(name: "AppStoreConnect", targets: ["AppStoreConnect"]),

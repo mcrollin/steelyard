@@ -11,12 +11,12 @@ public actor AppStoreConnect {
 
     // MARK: Lifecycle
 
-    public init(keyID: String, issuerID: String, privateKeyPath: String) throws {
+    public init(keyID: String, issuerID: String, privateKey: URL) throws {
         client = try .init(
             keyID: keyID,
             issuerID: issuerID,
             audience: "appstoreconnect-v1",
-            privateKeyPath: privateKeyPath
+            privateKey: privateKey
         )
 
         decoder.dateDecodingStrategy = .iso8601

@@ -9,6 +9,7 @@ let package = Package(
         .library(name: "CommandLine", targets: ["CommandLine"]),
     ],
     dependencies: [
+        .package(url: "https://github.com/onevcat/Rainbow", .upToNextMajor(from: "4.0.0")),
         .package(url: "https://github.com/apple/swift-argument-parser.git", .upToNextMajor(from: "1.2.0")),
     ],
     targets: [
@@ -16,6 +17,7 @@ let package = Package(
             name: "CommandLine",
             dependencies: [
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
+                .product(name: "Rainbow", package: "Rainbow"),
             ]
         ),
     ]
