@@ -2,8 +2,8 @@
 //  Copyright © Marc Rollin.
 //
 
+import Archive
 import ArgumentParser
-import Build
 import Foundation
 import History
 
@@ -13,6 +13,6 @@ struct SteelyardCommand: AsyncParsableCommand {
     static var configuration = CommandConfiguration(
         commandName: "steelyard",
         abstract: "Analyze and optimize your Apple app's build sizes.",
-        subcommands: [HistoryCommand.self, BuildCommand.self]
+        subcommands: [HistoryCommand.self, ArchiveCommand.self]
     )
 }

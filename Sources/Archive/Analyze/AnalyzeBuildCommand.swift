@@ -19,18 +19,18 @@ struct AnalyzeBuildCommand: AsyncParsableCommand {
 
     static var configuration = CommandConfiguration(
         commandName: "analyze",
-        abstract: "Perform a detailed analysis of an IPA file."
+        abstract: "Perform a detailed analysis of an app archive."
     )
 
-    @Argument(help: "The file path to the IPA file to be analyzed.", transform: URL.init(fileURLWithPath:))
-    var ipa: URL
+    @Argument(help: "The file path to the .ipa or .app file.", transform: URL.init(fileURLWithPath:))
+    var path: URL
 
     @OptionGroup var exportOptions: ExportOptions<GraphicExportFormat>
     @OptionGroup var consoleOptions: ConsoleOptions
 
     func validate() throws {
-        guard FileManager.default.fileExists(atPath: ipa.path) else {
-            throw ValidationError("Invalid filepath \(ipa.path)")
+        guard FileManager.default.fileExists(atPath: path.path) else {
+            throw ValidationError("Invalid filepath \(path.path)")
         }
     }
 
@@ -38,12 +38,15 @@ struct AnalyzeBuildCommand: AsyncParsableCommand {
         Console.configure(options: consoleOptions)
 
         print("\n\n===DUPLICATES===\n")
-        try ApplicationArchive(at: ipa)
-            .topLevelDuplicates
-            .sorted(by: { $0.sizeInBytes > $1.sizeInBytes })
+        try await Archive(from: path)
+            .findTopLevelDuplicates()
             .forEach { duplicate in
-                print("---", duplicate.duplicateSizeInBytes.formattedBytes())
-                duplicate.nodes.forEach { node in
+                guard let first = duplicate.first else {
+                    return
+                }
+                let potentialGain = first.sizeInBytes * (duplicate.count - 1)
+                print("--- \(potentialGain.formattedBytes())")
+                duplicate.forEach { node in
                     print(node)
                 }
             }

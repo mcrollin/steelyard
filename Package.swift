@@ -10,50 +10,42 @@ let package = Package(
     ],
     products: [
         .executable(name: "steelyard", targets: ["Steelyard"]),
-        .library(name: "App", targets: ["ApplicationArchive", "TreeMap"])
     ],
     dependencies: [
-        .package(path: "Packages/AppStoreConnect"),
-        .package(path: "Packages/CommandLine"),
-        .package(path: "Packages/Platform"),
-        .package(url: "https://github.com/marmelroy/Zip.git", .upToNextMajor(from: "2.1.0")),
+        .package(url: "https://github.com/mcrollin/SteelyardCore.git", branch: "c9c53b47d776479e04680912f06822d018cd201c"),
+        .package(url: "https://github.com/apple/swift-argument-parser.git", .upToNextMajor(from: "1.2.0")),
+        .package(url: "https://github.com/onevcat/Rainbow", .upToNextMajor(from: "4.0.0")),
     ],
     targets: [
         .executableTarget(
             name: "Steelyard",
             dependencies: [
-                .target(name: "Build"),
+                .target(name: "Archive"),
                 .target(name: "History"),
             ]
         ),
         .target(
-            name: "ApplicationArchive",
+            name: "Archive",
             dependencies: [
-                .product(name: "Platform", package: "Platform"),
-                .product(name: "Zip", package: "Zip"),
+                .target(name: "CommandLine"),
+                .product(name: "ApplicationArchive", package: "SteelyardCore"),
+                .product(name: "DesignComponents", package: "SteelyardCore"),
+                .product(name: "Platform", package: "SteelyardCore"),
             ]
         ),
         .target(
-            name: "Build",
+            name: "CommandLine",
             dependencies: [
-                .target(name: "ApplicationArchive"),
-                .target(name: "TreeMap"),
-                .product(name: "CommandLine", package: "CommandLine"),
-                .product(name: "Platform", package: "Platform"),
+                .product(name: "ArgumentParser", package: "swift-argument-parser"),
+                .product(name: "Rainbow", package: "Rainbow"),
             ]
         ),
         .target(
             name: "History",
             dependencies: [
-                .product(name: "AppStoreConnect", package: "AppStoreConnect"),
-                .product(name: "CommandLine", package: "CommandLine"),
-                .product(name: "Platform", package: "Platform"),
-            ]
-        ),
-        .target(
-            name: "TreeMap",
-            dependencies: [
-                .product(name: "Platform", package: "Platform"),
+                .target(name: "CommandLine"),
+                .product(name: "AppStoreConnect", package: "SteelyardCore"),
+                .product(name: "Platform", package: "SteelyardCore"),
             ]
         ),
     ]

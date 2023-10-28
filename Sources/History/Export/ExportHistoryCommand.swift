@@ -2,7 +2,7 @@
 //  Copyright © Marc Rollin.
 //
 
-import AppStoreConnectModels
+import AppStoreConnect
 import ArgumentParser
 import CommandLine
 import Foundation

@@ -25,7 +25,6 @@ struct GraphHistoryCommand: AsyncParsableCommand, BuildSizeHistoryFetcher {
     @OptionGroup var fetchOptions: FetchOptions
     @OptionGroup var sizeOptions: SizeOptions
     @OptionGroup var exportOptions: ExportOptions<GraphicExportFormat>
-    @OptionGroup var runOptions: RunOptions
     @OptionGroup var consoleOptions: ConsoleOptions
     @OptionGroup var themeOptions: ThemeOptions
 
