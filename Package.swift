@@ -6,44 +6,46 @@ import PackageDescription
 let package = Package(
     name: "steelyard",
     platforms: [
-        .macOS(.v13),
+        .macOS(.v14),
     ],
     products: [
-        .executable(name: "steelyard", targets: ["SteelyardCommand"]),
+        .executable(name: "steelyard", targets: ["Steelyard"]),
     ],
     dependencies: [
-        .package(path: "Packages/AppStoreConnect"),
-        .package(path: "Packages/Console"),
-        .package(path: "Packages/CommandLine"),
-        .package(path: "Packages/Platform"),
+        .package(url: "https://github.com/mcrollin/SteelyardCore.git", branch: "c9c53b47d776479e04680912f06822d018cd201c"),
+        .package(url: "https://github.com/apple/swift-argument-parser.git", .upToNextMajor(from: "1.2.0")),
+        .package(url: "https://github.com/onevcat/Rainbow", .upToNextMajor(from: "4.0.0")),
     ],
     targets: [
-        .target(
-            name: "AppSizeFetcher",
-            dependencies: [
-                .product(name: "AppStoreConnect", package: "AppStoreConnect"),
-                .product(name: "Console", package: "Console"),
-                .product(name: "CommandLine", package: "CommandLine"),
-                .product(name: "Platform", package: "Platform"),
-            ]
-        ),
-        .target(
-            name: "DataCommand",
-            dependencies: [
-                .target(name: "AppSizeFetcher"),
-            ]
-        ),
-        .target(
-            name: "GraphCommand",
-            dependencies: [
-                .target(name: "AppSizeFetcher"),
-            ]
-        ),
         .executableTarget(
-            name: "SteelyardCommand",
+            name: "Steelyard",
             dependencies: [
-                .target(name: "DataCommand"),
-                .target(name: "GraphCommand"),
+                .target(name: "Archive"),
+                .target(name: "History"),
+            ]
+        ),
+        .target(
+            name: "Archive",
+            dependencies: [
+                .target(name: "CommandLine"),
+                .product(name: "ApplicationArchive", package: "SteelyardCore"),
+                .product(name: "DesignComponents", package: "SteelyardCore"),
+                .product(name: "Platform", package: "SteelyardCore"),
+            ]
+        ),
+        .target(
+            name: "CommandLine",
+            dependencies: [
+                .product(name: "ArgumentParser", package: "swift-argument-parser"),
+                .product(name: "Rainbow", package: "Rainbow"),
+            ]
+        ),
+        .target(
+            name: "History",
+            dependencies: [
+                .target(name: "CommandLine"),
+                .product(name: "AppStoreConnect", package: "SteelyardCore"),
+                .product(name: "Platform", package: "SteelyardCore"),
             ]
         ),
     ]
